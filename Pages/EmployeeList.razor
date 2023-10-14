@@ -1,0 +1,49 @@
+﻿@page "/"
+@inject Service.IEmployeeService Service
+
+<div>
+    <h3>Employee List</h3>
+    <div class="form-group">
+        <a class="btn btn-success" href="createemployee"><i class="oi oi-plus"></i> Create New</a>
+    </div>
+<br>
+</div>
+<div>
+    @if(employees !=null){
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">employeeId</th>
+                <th scope="col">name</th>
+                <th scope="col">address</th>
+                <th scope="col">departement</th>
+                <th scope="col">email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in employees)
+            {
+                <tr>
+                    <th>@employee.id</th>
+                    <td><a href=@($"employeedetails/{employee.employeeId}")>@employee.employeeId</a></td>
+                    <td>@employee.name</td>
+                    <td>@employee.address</td>
+                    <td>@employee.departement</td>
+                    <td>@employee.email</td>
+                </tr> 
+            }
+        </tbody>
+    </table>
+    }
+</div>
+
+
+@code {
+    private IEnumerable<DTO.EmployeeDTO> employees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await Service.GetAllEmployee();
+    }
+}
